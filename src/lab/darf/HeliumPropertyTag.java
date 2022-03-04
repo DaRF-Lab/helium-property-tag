@@ -1,4 +1,4 @@
-package me.u410;
+package lab.darf;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
