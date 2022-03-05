@@ -42,6 +42,12 @@ public class HeliumPropertyTag implements Serializable {
 
     // Constructor for single tag
     public HeliumPropertyTag(String singleTagName, String singleTagDescription, Object singleTagValue) {
+        
+        // Name should not contain "."
+        if (singleTagName.contains(".")) {
+            throw new IllegalArgumentException("Tag name should not contain '.'.");
+        }
+        
         this.isSingleTag = true;
         this.tagName = singleTagName;
         this.tagDescription = singleTagDescription;
@@ -50,6 +56,12 @@ public class HeliumPropertyTag implements Serializable {
 
     // Constructor for subtree data
     public HeliumPropertyTag(String singleTagName, String singleTagDescription) {
+        
+        // Name should not contain "."
+        if (singleTagName.contains(".")) {
+            throw new IllegalArgumentException("Tag name should not contain '.'.");
+        }
+        
         this.tagName = singleTagName;
         this.tagDescription = singleTagDescription;
     }
@@ -177,6 +189,11 @@ public class HeliumPropertyTag implements Serializable {
             }
         }
 
+        // Name should not contain "."
+        if (tagName.contains(".")) {
+            throw new IllegalArgumentException("Tag name should not contain '.'.");
+        }
+
         // Add a new single tag
         this.tagNames.add(tagName);
         this.tag.add(new HeliumPropertyTag(tagName, tagDescription, tagValue));
@@ -194,6 +211,11 @@ public class HeliumPropertyTag implements Serializable {
                 set(i, tag);
                 return this;
             }
+        }
+
+        // Name should not contain "."
+        if (tag.getTagName().contains(".")) {
+            throw new IllegalArgumentException("Tag name should not contain '.'.");
         }
 
         this.tagNames.add(tag.getTagName());
@@ -253,6 +275,12 @@ public class HeliumPropertyTag implements Serializable {
     // Change the name of this tag.
     public HeliumPropertyTag setName(String tagName) {
         if (!isUsable) throw new IllegalStateException("This tag is not usable.");
+        
+        // Name should not contain "."
+        if (tagName.contains(".")) {
+            throw new IllegalArgumentException("Tag name should not contain '.'.");
+        }
+
         this.tagName = tagName;
         return this;
     }
@@ -289,6 +317,12 @@ public class HeliumPropertyTag implements Serializable {
     // Change the value of the subtag at index with the new value.
     public HeliumPropertyTag set(int index, HeliumPropertyTag tag) {
         if (!isUsable) throw new IllegalStateException("This tag is not usable.");
+        
+        // Name should not contain "."
+        if (tag.getTagName().contains(".")) {
+            throw new IllegalArgumentException("Tag name should not contain '.'.");
+        }
+
         this.tagNames.set(index, tag.getTagName());
         this.tag.set(index, tag);
         this.tagDescriptions.set(index, tag.getTagDescription());
