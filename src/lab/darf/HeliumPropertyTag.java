@@ -169,6 +169,14 @@ public class HeliumPropertyTag implements Serializable {
     public HeliumPropertyTag add(String tagName, String tagDescription, Object tagValue) {
         if (!isUsable) throw new IllegalStateException("This tag is not usable.");
         
+        // Check if the tag already exists
+        for (int i = 0; i < tagNames.size(); i++) {
+            if (tagNames.get(i).equals(tagName)) {
+                set(i, new HeliumPropertyTag(tagName, tagDescription, tagValue));
+                return this;
+            }
+        }
+
         // Add a new single tag
         this.tagNames.add(tagName);
         this.tag.add(new HeliumPropertyTag(tagName, tagDescription, tagValue));
@@ -179,6 +187,15 @@ public class HeliumPropertyTag implements Serializable {
     // Add subtag to this tag, but will add as a subtree data.
     public HeliumPropertyTag add(HeliumPropertyTag tag) {
         if (!isUsable) throw new IllegalStateException("This tag is not usable.");
+
+        // Check if the tag already exists
+        for (int i = 0; i < tagNames.size(); i++) {
+            if (tagNames.get(i).equals(tag.getTagName())) {
+                set(i, tag);
+                return this;
+            }
+        }
+
         this.tagNames.add(tag.getTagName());
         this.tag.add(tag);
         this.tagDescriptions.add(tag.getTagDescription());
@@ -212,6 +229,12 @@ public class HeliumPropertyTag implements Serializable {
     // Remove a subtag from this tag based on index.
     public HeliumPropertyTag remove(int index) {
         if (!isUsable) throw new IllegalStateException("This tag is not usable.");
+
+        // Check if the index is valid
+        if (index < 0 || index >= tagNames.size()) {
+            throw new IllegalArgumentException("The index is invalid.");
+        }
+
         tagNames.remove(index);
         tag.remove(index);
         tagDescriptions.remove(index);

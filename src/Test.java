@@ -56,25 +56,25 @@ public class Test {
         masterTag.set("tag4.subtag4.subsubtag3", subsubtag3);
 
         // Build the tree
-        // masterTag
-        //     .add(tag1)
-        //     .add(tag2)
-        //     .add(tag3)
-        //     .add(tag4
-        //         .add(subtag1)
-        //         .add(subtag2)
-        //         .add(subtag3)
-        //         .add(subtag4
-        //             .add(subsubtag1)
-        //             .add(subsubtag2)
-        //             .add(subsubtag3)
-        //             .add(subsubtag4
-        //                 .add(subsubsubtag1)
-        //                 .add(subsubsubtag2)
-        //                 .add(subsubsubtag3)
-        //             )
-        //         )
-        //     );
+        masterTag
+            .add(tag1)
+            .add(tag2)
+            .add(tag3)
+            .add(tag4
+                .add(subtag1)
+                .add(subtag2)
+                .add(subtag3)
+                .add(subtag4
+                    .add(subsubtag1)
+                    .add(subsubtag2)
+                    .add(subsubtag3)
+                    .add(subsubtag4
+                        .add(subsubsubtag1)
+                        .add(subsubsubtag2)
+                        .add(subsubsubtag3)
+                    )
+                )
+            );
 
         System.out.println(masterTag.toString());
 
