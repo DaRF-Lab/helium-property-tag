@@ -43,15 +43,15 @@ public class Test {
         HeliumPropertyTag tag4 = new HeliumPropertyTag("tag4", "This is a subtree tag.");
         HeliumPropertyTag subtag1 = new HeliumPropertyTag("subtag1", "Descriptions will be replaced with _ from now on.", "subtag1 value");
         HeliumPropertyTag subtag2 = new HeliumPropertyTag("subtag2", null, "subtag2 value");
-        HeliumPropertyTag subtag3 = new HeliumPropertyTag("subtag3", "_", "subtag3 value");
-        HeliumPropertyTag subtag4 = new HeliumPropertyTag("subtag4", "_");
-        HeliumPropertyTag subsubtag1 = new HeliumPropertyTag("subsubtag1", "_", "subsubtag1 value");
-        HeliumPropertyTag subsubtag2 = new HeliumPropertyTag("subsubtag2", "_", "subsubtag2 value");
-        HeliumPropertyTag subsubtag3 = new HeliumPropertyTag("subsubtag3", "_", "subsubtag3 value");
-        HeliumPropertyTag subsubtag4 = new HeliumPropertyTag("subsubtag4", "_");
-        HeliumPropertyTag subsubsubtag1 = new HeliumPropertyTag("subsubsubtag1", "_", "subsubsubtag1 value");
-        HeliumPropertyTag subsubsubtag2 = new HeliumPropertyTag("subsubsubtag2", "_", "subsubsubtag2 value");
-        HeliumPropertyTag subsubsubtag3 = new HeliumPropertyTag("subsubsubtag3", "_", "subsubsubtag3 value");
+        HeliumPropertyTag subtag3 = new HeliumPropertyTag("subtag3", "", "subtag3 value");
+        HeliumPropertyTag subtag4 = new HeliumPropertyTag("subtag4", "");
+        HeliumPropertyTag subsubtag1 = new HeliumPropertyTag("subsubtag1", "", "subsubtag1 value");
+        HeliumPropertyTag subsubtag2 = new HeliumPropertyTag("subsubtag2", "", "subsubtag2 value");
+        HeliumPropertyTag subsubtag3 = new HeliumPropertyTag("subsubtag3", "", "subsubtag3 value");
+        HeliumPropertyTag subsubtag4 = new HeliumPropertyTag("subsubtag4", "");
+        HeliumPropertyTag subsubsubtag1 = new HeliumPropertyTag("subsubsubtag1", "", "subsubsubtag1 value");
+        HeliumPropertyTag subsubsubtag2 = new HeliumPropertyTag("subsubsubtag2", "", "subsubsubtag2 value");
+        HeliumPropertyTag subsubsubtag3 = new HeliumPropertyTag("subsubsubtag3", "", "subsubsubtag3 value");
 
         masterTag.set("tag4.subtag4.subsubtag3", subsubtag3);
 

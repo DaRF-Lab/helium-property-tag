@@ -346,14 +346,14 @@ public class HeliumPropertyTag implements Serializable {
             t = t.get(tagNames[i]);
             if (i == tagNames.length - 1) {
                 if (t == null) {
-                    t = new HeliumPropertyTag(tagNames[i], "Automatically generated tag", object);
+                    t = new HeliumPropertyTag(tagNames[i], "", object);
                     previousTag.add(t);
                 }else{
                     t.setValue(object);
                 }
             }else{
                 if (t == null) {
-                    t = new HeliumPropertyTag(tagNames[i], "Automatically generated tag");
+                    t = new HeliumPropertyTag(tagNames[i], "");
                     previousTag.add(t);
                 }
                 previousTag = t;
@@ -393,9 +393,12 @@ public class HeliumPropertyTag implements Serializable {
 
             // If single tag, display the value.
             if (tag.get(i).isSingleTag) {
-                sb
-                .append("{" + tag.get(i).singleTagValue + "}" + "   (" + tag.get(i).getTagDescription() + ")")
-                .append("\n");
+
+                if (tag.get(i).getTagDescription() == null || tag.get(i).getTagDescription().equals("null") || tag.get(i).getTagDescription().length() > 0) {
+                    sb.append("{" + tag.get(i).singleTagValue + "}   (" + tag.get(i).getTagDescription() + ")\n");
+                }else{
+                    sb.append("{" + tag.get(i).singleTagValue + "}\n");
+                }
 
             // If subtags, display the subtags recursively
             }else{
@@ -405,7 +408,13 @@ public class HeliumPropertyTag implements Serializable {
                 for (int j = 0; j < indent; j++) {
                     sb.append("\t");
                 }
-                sb.append("}   (" + tag.get(i).getTagDescription() + ")\n");
+                sb.append("}");
+                
+                if (tag.get(i).getTagDescription() == null || tag.get(i).getTagDescription().equals("null") || tag.get(i).getTagDescription().length() > 0) {
+                    sb.append("   (" + tag.get(i).getTagDescription() + ")\n");
+                }else{
+                    sb.append("\n");
+                }
             }
         }
         return sb.toString();
