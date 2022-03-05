@@ -9,7 +9,13 @@ public class Test {
         // Load the data
         HeliumPropertyTag t = load();
         String s = (String) (t.get("tag4").get("subtag4").get("subsubtag3").object());
+
+        s = (String) (t.object("tag4.subtag4.subsubtag3"));
         System.out.println(s);
+
+        // Remove subsubtag3
+        t.remove("tag4.subtag4.subsubtag3");
+        System.out.println(t.toString());
     }
 
     public static HeliumPropertyTag load() throws Exception {
@@ -47,26 +53,28 @@ public class Test {
         HeliumPropertyTag subsubsubtag2 = new HeliumPropertyTag("subsubsubtag2", "_", "subsubsubtag2 value");
         HeliumPropertyTag subsubsubtag3 = new HeliumPropertyTag("subsubsubtag3", "_", "subsubsubtag3 value");
 
+        masterTag.set("tag4.subtag4.subsubtag3", subsubtag3);
+
         // Build the tree
-        masterTag
-            .add(tag1)
-            .add(tag2)
-            .add(tag3)
-            .add(tag4
-                .add(subtag1)
-                .add(subtag2)
-                .add(subtag3)
-                .add(subtag4
-                    .add(subsubtag1)
-                    .add(subsubtag2)
-                    .add(subsubtag3)
-                    .add(subsubtag4
-                        .add(subsubsubtag1)
-                        .add(subsubsubtag2)
-                        .add(subsubsubtag3)
-                    )
-                )
-            );
+        // masterTag
+        //     .add(tag1)
+        //     .add(tag2)
+        //     .add(tag3)
+        //     .add(tag4
+        //         .add(subtag1)
+        //         .add(subtag2)
+        //         .add(subtag3)
+        //         .add(subtag4
+        //             .add(subsubtag1)
+        //             .add(subsubtag2)
+        //             .add(subsubtag3)
+        //             .add(subsubtag4
+        //                 .add(subsubsubtag1)
+        //                 .add(subsubsubtag2)
+        //                 .add(subsubsubtag3)
+        //             )
+        //         )
+        //     );
 
         System.out.println(masterTag.toString());
 

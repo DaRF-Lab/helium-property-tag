@@ -10,7 +10,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class HeliumPropertyTag implements Serializable {
-    public static final double VERSION = 1.0;
+    public static final double VERSION = 1.1;
+    private static final HeliumPropertyTag EMPTY = new HeliumPropertyTag("960984D06CD0C1723B0B539C87684708AECEB5741713B8B48D2F0202B53AA958CFF8ADFE1C781E9D4AF114A012B19E03B737133CC1A70179BAEF34ADF4360CF1", "960984D06CD0C1723B0B539C87684708AECEB5741713B8B48D2F0202B53AA958CFF8ADFE1C781E9D4AF114A012B19E03B737133CC1A70179BAEF34ADF4360CF1", null);
 
     private boolean isUsable = true;          // Cannot contain data if only for parsing
     private boolean isSingleTag = false;      // Cannot contain subtree data if single tag
@@ -84,6 +85,42 @@ public class HeliumPropertyTag implements Serializable {
         return isSingleTag;
     }
 
+    // Clear all empty objects 
+    private void clearEmptyObjects() {
+        if (!isUsable) throw new IllegalStateException("This tag is not usable.");
+        if (isSingleTag) {
+            return;
+        }else{
+            for (int i = 0; i < tag.size(); i++) {
+                if (tag.get(i).object() == null) {
+                    tag.remove(i);
+                    tagNames.remove(i);
+                    tagDescriptions.remove(i);
+                    i--;
+                }else {
+                    tag.get(i).clearEmptyObjects();
+                }
+            }
+        }
+    }
+
+    // Get the object of the subtree by the address
+    public Object data(String address) { return object(address); }
+    public Object object(String address) {
+        if (!isUsable) throw new IllegalStateException("This tag is not usable.");
+        if (isSingleTag) {
+            throw new IllegalStateException("This tag is single tag.");
+        }else{
+            String[] tagNames = address.split("\\.");
+            HeliumPropertyTag t = this;
+            for (int i = 0; i < tagNames.length; i++) {
+                t = t.get(tagNames[i]);
+                if (t == null) return null;
+            }
+            return t.object();
+        }
+    }
+
     // Get the value of this tag based on name.
     public HeliumPropertyTag get(String tagName) {
         if (!isUsable) throw new IllegalStateException("This tag is not usable.");
@@ -148,9 +185,17 @@ public class HeliumPropertyTag implements Serializable {
         return this;
     }
 
+
     // Remove a subtag from this tag based on name.
     public HeliumPropertyTag remove(String tagName) {
         if (!isUsable) throw new IllegalStateException("This tag is not usable.");
+
+
+        // If the tagName contains . (dot), remove the subtree
+        if (tagName.contains(".")) {
+            set(tagName, HeliumPropertyTag.EMPTY);
+            return this;
+        }
 
         // Linear search for the tag name
         for (int i = 0; i < tagNames.size(); i++) {
@@ -203,7 +248,18 @@ public class HeliumPropertyTag implements Serializable {
             this.singleTagValue = tagValue;
             return this;
         }else{
-            throw new IllegalStateException("This tag is not single tag.");
+            if (tagValue instanceof HeliumPropertyTag) {
+                HeliumPropertyTag t = (HeliumPropertyTag)tagValue;
+                int index = indexOf(t.getTagName());
+                if (index == -1) {
+                    throw new IllegalArgumentException("The tag is not in this tag.");
+                }else{
+                    tag.set(index, t);
+                    return this;
+                }
+            }else{
+                throw new IllegalStateException("This tag is not single tag.");
+            }
         }
     }
 
@@ -214,6 +270,45 @@ public class HeliumPropertyTag implements Serializable {
         this.tag.set(index, tag);
         this.tagDescriptions.set(index, tag.getTagDescription());
         return this;
+    }
+
+
+    // Change the value of the subtag with the new value by address.
+    public HeliumPropertyTag set(String address, Object object) {
+        if (!isUsable) throw new IllegalStateException("This tag is not usable.");
+        if (isSingleTag) throw new IllegalStateException("This tag is single tag.");
+        String[] tagNames = address.split("\\.");
+
+        // Get the index of the master tag
+        int index = indexOf(tagNames[0]);
+        if (index == -1) index = 0;
+
+        HeliumPropertyTag t = this;
+        HeliumPropertyTag previousTag = this;
+        for (int i = 0; i < tagNames.length; i++) {
+            t = t.get(tagNames[i]);
+            if (i == tagNames.length - 1) {
+                if (t == null) {
+                    t = new HeliumPropertyTag(tagNames[i], "Automatically generated tag", object);
+                    previousTag.add(t);
+                }else{
+                    t.setValue(object);
+                }
+            }else{
+                if (t == null) {
+                    t = new HeliumPropertyTag(tagNames[i], "Automatically generated tag");
+                    previousTag.add(t);
+                }
+                previousTag = t;
+            }
+        }
+
+        clearEmptyObjects();
+        return this;
+    }
+
+    public HeliumPropertyTag set(String address, HeliumPropertyTag object) { 
+        return set(address, object.object());
     }
 
     // Convert to string for human readability.

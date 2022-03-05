@@ -133,6 +133,14 @@ Object object()
 ```
 
 ```java
+Object data(String address)
+Object object(String address)
+  // Will get the actual data from the tag by the address.
+  // If the tag is a single tag, then it will throw an error.
+  // The accessing address style is same as JSON. (object.object.object...)
+```
+
+```java
 boolean isSingleTag()
   // Will get the boolean info about whether the tag is single tag or not.
 ```
@@ -187,6 +195,15 @@ HeliumPropertyTag set(int index, HeliumPropertyTag tag)
   // Will set the value of the subtree subtag at the given index
 ```
 
+```java
+HeliumPropertyTag set(String address, HeliumPropertyTag tag)
+HeliumPropertyTag set(String address, Object object)
+  // Will set the value of the subtree subtag at the given address
+  // The accessing address style is same as JSON. (object.object.object...)
+```
+
+
+
 
 
 **Modifiers**
@@ -204,6 +221,8 @@ HeliumPropertyTag add(HeliumPropertyTag tag)
 ```java
 HeliumPropertyTag remove(String tagName)
   // Will remove a subtree tag with the name
+  // tagName could be a accessing address.
+  // The accessing address style is same as JSON. (object.object.object...)
 ```
 
 ```java
