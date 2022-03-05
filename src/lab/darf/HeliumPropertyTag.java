@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class HeliumPropertyTag implements Serializable {
-    public static final double VERSION = 1.11;
+    public static final double VERSION = 1.12;
     private static final HeliumPropertyTag EMPTY = new HeliumPropertyTag("960984D06CD0C1723B0B539C87684708AECEB5741713B8B48D2F0202B53AA958CFF8ADFE1C781E9D4AF114A012B19E03B737133CC1A70179BAEF34ADF4360CF1", "960984D06CD0C1723B0B539C87684708AECEB5741713B8B48D2F0202B53AA958CFF8ADFE1C781E9D4AF114A012B19E03B737133CC1A70179BAEF34ADF4360CF1", null);
 
     private boolean isUsable = true;          // Cannot contain data if only for parsing
