@@ -59,6 +59,12 @@ masterTag
 Get data from the object
 
 ```java
+String s = (String) (t.object("tag4.subtag4.subsubtag3"));
+```
+
+or
+
+```java
 String s = (String) (t.get("tag4").get("subtag4").get("subsubtag3").object());
 ```
 
