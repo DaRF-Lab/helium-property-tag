@@ -56,48 +56,10 @@ masterTag
 
 
 
-Get data from the object
-
-```java
-String s = (String) (t.object("tag4.subtag4.subsubtag3"));
-```
-
-or
-
-```java
-String s = (String) (t.get("tag4").get("subtag4").get("subsubtag3").object());
-```
-
-
-
-Saving to disk
-
-```java
-masterTag.save("test.hpt");
-```
-
-
-
-Load from disk
-
-```java
-// Both ways are fine
-HeliumPropertyTag t1 = new HeliumPropertyTag().parse("test.hpt");
-HeliumPropertyTag t2 = new HeliumPropertyTag("test.hpt");
-```
-
-
-
-
-
 ## Documentation
 
 **Constructors**
 
-```java
-HeliumPropertyTag()
-  // This will not allow developers from accessing all methods but parse(String filePath) and save(String filePath, HeliumPropertyTag htag).
-```
 
 ```java
 HeliumPropertyTag(String filePath)
@@ -121,29 +83,13 @@ HeliumPropertyTag(String singleTagName, String singleTagDescription)
 **Getters**
 
 ```java
-String getTagName()
+String getName()
   // Will return the tag name.
 ```
 
 ```java
-String getTagDescription()
+String getDescription()
   // Will get the tag description.
-```
-
-```java
-Object data()
-Object object()
-  // Will get the actual data from the tag.
-  // If the tag is a single tag, then it will return its value.
-  // If the tag has a subtree, then it will return its subtree.
-```
-
-```java
-Object data(String address)
-Object object(String address)
-  // Will get the actual data from the tag by the address.
-  // If the tag is a single tag, then it will throw an error.
-  // The accessing address style is same as JSON. (object.object.object...)
 ```
 
 ```java
@@ -152,9 +98,16 @@ boolean isSingleTag()
 ```
 
 ```java
+Object get()
+  // Will get the actual data from the tag by the address.
+  // If the tag is a single tag, then it will throw an error.
+```
+
+```java
 HeliumPropertyTag get(String tagName)
   // Will specifically get the tag with the given name if the tag has a subtree.
   // If not, it will return null.
+  // Tag name may be JSON style accessor. (object.object.object...)
 ```
 
 ```java
@@ -173,7 +126,7 @@ int getTagCount()
 ```
 
 ```java
-ArrayList<String> getTagNames()
+ArrayList<String> getSubtagNames()
   // Will return the array list of the names of subtree tags
 ```
 
@@ -192,20 +145,16 @@ HeliumPropertyTag setDescription(String tagDescription)
 ```
 
 ```java
-HeliumPropertyTag setValue(Object tagValue)
+HeliumPropertyTag set(Object tagValue)
   // Will set the value of the tag if it is a single tag
 ```
 
 ```java
-HeliumPropertyTag set(int index, HeliumPropertyTag tag)
-  // Will set the value of the subtree subtag at the given index
-```
-
-```java
 HeliumPropertyTag set(String address, HeliumPropertyTag tag)
-HeliumPropertyTag set(String address, Object object)
   // Will set the value of the subtree subtag at the given address
   // The accessing address style is same as JSON. (object.object.object...)
+
+  // Developers may add new value using this method, but is highly recommended to use .add method stated below due to the reliabilty.
 ```
 
 
@@ -254,9 +203,3 @@ save(String filePath) throws IOException
 save(String filePath, HeliumPropertyTag htag) throws IOException
   // Will save the given tag with the filesystem to the given path
 ```
-
-```java
-HeliumPropertyTag parse(String filePath) throws IOException, ClassNotFoundException
-  // Will load the saved property file and parse it to be the instance of HeliumPropertyTag.
-```
-

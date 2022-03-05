@@ -8,29 +8,17 @@ public class Test {
 
         // Load the data
         HeliumPropertyTag t = load();
-        String s = (String) (t.get("tag4").get("subtag4").get("subsubtag3").object());
+        // System.out.println("subsubtag3: " + t.get("tag4.subtag4.subsubtag3").get());
 
-        s = (String) (t.object("tag4.subtag4.subsubtag3"));
-        System.out.println(s);
+        // t.remove("tag4.subtag4.subsubtag3");
+        // System.out.println(t.toString());
 
-        // Remove subsubtag3
-        t.remove("tag4.subtag4.subsubtag3");
-        System.out.println(t.toString());
+        // System.out.println(t.get("tag4.subtag4.subsubtag3").get());
+
     }
 
     public static HeliumPropertyTag load() throws Exception {
-        System.out.println("Loading test.hpt...");
-
-        // t1 and t2 are the same
-        HeliumPropertyTag t1 = new HeliumPropertyTag().parse("test.hpt");
-        HeliumPropertyTag t2 = new HeliumPropertyTag("test.hpt");
-
-        // Print
-        System.out.println(t1.toString());
-        System.out.println(t2.toString());
-
-        // Return
-        return t1;
+        return new HeliumPropertyTag("test.hpt");
     }
 
     public static void generate() throws Exception {
@@ -47,13 +35,13 @@ public class Test {
         HeliumPropertyTag subtag4 = new HeliumPropertyTag("subtag4", "");
         HeliumPropertyTag subsubtag1 = new HeliumPropertyTag("subsubtag1", "", "subsubtag1 value");
         HeliumPropertyTag subsubtag2 = new HeliumPropertyTag("subsubtag2", "", "subsubtag2 value");
-        HeliumPropertyTag subsubtag3 = new HeliumPropertyTag("subsubtag3", "", "subsubtag3 value");
+        HeliumPropertyTag subsubtag3 = new HeliumPropertyTag("subsubtag3", "Test Value", "subsubtag3 value");
         HeliumPropertyTag subsubtag4 = new HeliumPropertyTag("subsubtag4", "");
         HeliumPropertyTag subsubsubtag1 = new HeliumPropertyTag("subsubsubtag1", "", "subsubsubtag1 value");
         HeliumPropertyTag subsubsubtag2 = new HeliumPropertyTag("subsubsubtag2", "", "subsubsubtag2 value");
         HeliumPropertyTag subsubsubtag3 = new HeliumPropertyTag("subsubsubtag3", "", "subsubsubtag3 value");
 
-        masterTag.set("tag4.subtag4.subsubtag3", subsubtag3);
+        // masterTag.set("tag4.subtag4.subsubtag3", null);
 
         // Build the tree
         masterTag
@@ -76,9 +64,12 @@ public class Test {
                 )
             );
 
+        System.out.println("Generated Tag: \n");
+
         System.out.println(masterTag.toString());
 
-        System.out.println("Saving...");
+        System.out.println("=======================");
+
         // Save the data
         masterTag.save("test.hpt");
     }
